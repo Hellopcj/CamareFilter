@@ -10,7 +10,12 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by puchunjie .
  */
 
-public class CamareRander implements GLSurfaceView.Renderer {
+public class CamareRender implements GLSurfaceView.Renderer {
+
+  private CamareDrawer mDrawer;
+
+
+
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
 
@@ -21,8 +26,11 @@ public class CamareRander implements GLSurfaceView.Renderer {
 
     }
 
+    // 绘制
     @Override
     public void onDrawFrame(GL10 gl10) {
 
     }
+
+
 }

@@ -3,15 +3,18 @@ package com.baidu.camare.camarefilterapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.TextureView;
 
+import com.baidu.camare.camarefilterapp.camera.CameraParams;
 import com.baidu.camare.camarefilterapp.camera.EasyCamera;
-import com.baidu.camare.camarefilterapp.draw.CamareRander;
+import com.baidu.camare.camarefilterapp.camera.EasyCameraCallback;
+import com.baidu.camare.camarefilterapp.draw.CamareRender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +22,15 @@ import java.util.List;
 /**
  * camare 界面
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Camera.PreviewCallback, EasyCameraCallback {
     private GLSurfaceView mSurfaceView;
-    private CamareRander mRander;
+    private CamareRender mRender;
 
-    private TextureView mSourceView;//
-    private TextureView mTargitView;
+    private SurfaceTexture mSourceView;//
+    private SurfaceTexture mTargitView;
 
     private EasyCamera mCamare;
+    private CameraParams mCamareParams;
 
     private boolean mIsDenyAllPermission = false;
     private static final int REQUEST_CODE_ASK_ALL_PERMISSIONS = 154;
@@ -44,14 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mSurfaceView = findViewById(R.id.gl_view);
-        mRander = new CamareRander();
+        mRender = new CamareRender();
+        mCamareParams = new CameraParams();
+        mCamareParams.setCameraId(Camera.CameraInfo.CAMERA_FACING_FRONT);
         mCamare = EasyCamera.getInstance();
     }
 
     private void initData() {
         mSurfaceView.setEGLContextClientVersion(2);
-        mSurfaceView.setRenderer(mRander);
+        mSurfaceView.setRenderer(mRender);
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        mSurfaceView.setRenderer(mRender);
     }
 
     @Override
@@ -113,7 +120,59 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
+            //获取到权限后 开启相机
+            startCamre();
         }
     }
 
+    /**
+     * 开启相机
+     */
+    private void startCamre() {
+        mCamare.startCamera(mCamareParams,mSourceView,this,this);
+    }
+
+    /**
+     * 释放相机
+     */
+    private void closeCamare(){
+        mCamare.stopCamera();
+    }
+
+    /**
+     * 切换相机
+     */
+    private void switchCamare(){
+        mCamare.switchCamera();
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] bytes, Camera camera) {
+
+    }
+
+    @Override
+    public void onCameraStart(boolean result) {
+
+    }
+
+    @Override
+    public void onCameraSwitch(boolean result) {
+
+    }
+
+    @Override
+    public void onFlashOpen(boolean result) {
+
+    }
+
+    @Override
+    public void onFlashClose(boolean result) {
+
+    }
+
+    @Override
+    public void onCameraStop(boolean result) {
+
+    }
 }
