@@ -6,7 +6,7 @@ package com.baidu.camare.camarefilterapp.camera;
 import android.hardware.Camera;
 
 public class CameraParams {
-    private static final int DEFAULT_CAMERA_INDEX = Camera.CameraInfo.CAMERA_FACING_BACK;
+    private static final int DEFAULT_CAMERA_INDEX = Camera.CameraInfo.CAMERA_FACING_FRONT;// 默认前置摄像头
     private static final boolean DEFAULT_AUTO_CORRECT_PARAMS = true;
     private static final boolean DEFAULT_KEEP_ASPECT_RATIO = true;
     private static final double DEFAULT_ASPECT_TOLERANCE = 0.05;
